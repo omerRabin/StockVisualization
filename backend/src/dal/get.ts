@@ -3,13 +3,13 @@ import axios from 'axios';
 import { historicalStockData } from "../types";
 import { RawCandleData, candleParameters } from '../interfaces';
 
-const FINNHUB_CANDLE_API = 'https://finnhub.io/api/v1/stock/candle';
+const FINNHUB_CANDLE_ROUTE = 'https://finnhub.io/api/v1/stock/candle';
 
 const fetchHistoricalStockData = async (parameters : candleParameters ) : Promise<historicalStockData> =>
 {
     try
     {
-        const response = await axios.get<RawCandleData>(FINNHUB_CANDLE_API, {
+        const response = await axios.get<RawCandleData>(FINNHUB_CANDLE_ROUTE, {
             params: {
               symbol: parameters.symbol,
               resolution: parameters.resolution,
@@ -35,6 +35,6 @@ const fetchHistoricalStockData = async (parameters : candleParameters ) : Promis
         console.error('Error fetching historical stock data:', error);
         throw error;
     }
-} 
+}
 
 export {fetchHistoricalStockData}
