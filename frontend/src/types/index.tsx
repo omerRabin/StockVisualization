@@ -1,0 +1,1 @@
+export {stockDetails} from './stockDetails'

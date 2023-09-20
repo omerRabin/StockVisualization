@@ -1,0 +1,70 @@
+.search {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px;
+  justify-content: space-between;
+  height: 5vh;
+  width: 25vw;
+  position: relative;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  flex-grow: 1;
+  font-size: large;
+  padding: 8px;
+  direction: ltr;
+}
+
+.search-icon {
+  color: #666;
+  margin: 0 8px;
+}
+
+.options-container {
+  white-space: nowrap;
+  position: absolute; /* Position the suggestions container */
+  top: 100%; /* Position it below the search box */
+  left: 0; /* Adjust left position if needed */
+  z-index: 1; /* Ensure it's displayed above other content */
+  width: 100%; /* Set the width to match the search input */
+  background-color: white; /* Set the background color */
+  border: 1px solid #ccc; /* Add a border for a separator */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a box shadow for a raised effect */
+  max-height: 200px; /* Set a max height to limit the suggestions */
+  overflow-y: auto; /* Add scrollbars when suggestions exceed max height */
+  overflow: hidden; /* Hide the scrollbar */
+  max-height: 33vh;
+}
+
+.option-item {
+  padding: 10px; /* Adjust padding as needed */
+
+  border-bottom: 1px solid #ccc; /* Add a border between items */
+  cursor: pointer; /* Show a pointer cursor on hover */
+}
+
+.option-item:last-child {
+  border-bottom: none; /* Remove border from the last item */
+}
+
+.symbol {
+  margin-right: 100%;
+  color: #000;
+  font-size: 120%;
+}
+
+.company-name {
+  margin-right: 100%;
+  color: #666;
+  white-space: nowrap; /* Prevent text wrapping */
+  font-size: 80%;
+}
+
+.option-item .symbol {
+  margin-bottom: 5px; /* Adjust the margin as needed */
+}

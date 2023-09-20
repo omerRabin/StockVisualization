@@ -1,17 +1,18 @@
 {
-    "compilerOptions": {
-      "target": "es6",
-      "module": "commonjs",
-      "outDir": "dist",
-      "rootDir": "c:/Users/omer rabin/StockVisualization/backend/src",
-      "esModuleInterop": true,
-      "strict": true
-    },
-    "include": [
-      "src/**/*.ts"
-, "server.ts"    ],
-    "exclude": [
-      "node_modules"
-    ]
-  }
-  
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "dist",
+    "rootDir": "c:/Users/omer rabin/StockVisualization/backend/src",
+    "esModuleInterop": true,
+    "strict": true,
+    "types": [ "node" ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "server.ts"
+, "src/scripts/z"  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
