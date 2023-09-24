@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/search.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { stockDetails } from './../types';
 
 const SERVER_API = 'http://localhost:4567/api';
@@ -9,6 +10,8 @@ const Search = () => {
   const [userInput, setUserInput] = useState<string>('');
   const [fetchedStockDetails, setFetchedStockDetails] = useState<stockDetails[]>([]);
   const [filteredOptions, setFilteredOptions] = useState<stockDetails[]>([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getStockDetails = async () => {
@@ -57,6 +60,9 @@ const Search = () => {
   const handleOptionClick = (option: stockDetails) => {
     setUserInput(option.symbol);
     setFilteredOptions([]);
+
+    // Change the route to the stock symbol page
+    navigate(`/markets/${option.symbol}`);
   };
 
   return (

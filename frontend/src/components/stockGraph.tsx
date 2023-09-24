@@ -1,49 +1,59 @@
-import React, { useRef, useEffect } from 'react';
-import Chart from 'chart.js/auto'; // Import 'chart.js/auto' for module-style import
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { Ranges } from '../enums';
+import { BasicLineChart } from './';
+import { historicalStockData } from '../types';
 
-interface BasicGraphProps {
-  labels: string[];
-  datasetLabel: string;
-  data: number[];
-}
+const SERVER_API = 'http://localhost:4567/api';
 
-function BasicGraph(props: BasicGraphProps) {
-  const chartRef = useRef<HTMLCanvasElement | null>(null);
-  const chartInstanceRef = useRef<Chart | null>(null); // Store the Chart instance
+const StockGraph = () => {
+  const { symbol } = useParams();
+  const [stockData, setStockData] = useState<historicalStockData[]>([]);
+  const [range, setRange] = useState(Ranges.WEEK);
 
   useEffect(() => {
-    if (chartRef.current) {
-      const ctx = chartRef.current.getContext('2d');
-      if (ctx) {
-        if (chartInstanceRef.current) {
-          // If a Chart instance already exists, destroy it before creating a new one
-          chartInstanceRef.current.destroy();
-        }
-
-        chartInstanceRef.current = new Chart(ctx, {
-          type: 'bar', // Change this to your desired chart type (e.g., 'line', 'pie', etc.)
-          data: {
-            labels: props.labels,
-            datasets: [
-              {
-                label: props.datasetLabel,
-                data: props.data,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Example color
-                borderColor: 'rgba(75, 192, 192, 1)', // Example color
-                borderWidth: 1,
-              },
-            ],
-          },
-        });
+    // Fetch stock data for the symbol and range here
+    const fetchStockData = async () => {
+      try {
+        debugger;
+        const response = await axios.get(`${SERVER_API}/data/graph?symbol=${symbol}&range=${range}`);
+        setStockData(response.data);
+      } catch (error) {
+        console.error('Error fetching stock data:', error);
       }
-    }
-  }, [props.data, props.labels, props.datasetLabel]);
+    };
+
+    fetchStockData();
+  }, [symbol, range]);
+
+  const labels = ['Label 1', 'Label 2', 'Label 3', 'Label 4', 'Label 5'];
+
+  // Handle range change
+  const handleRangeChange = (newRange: Ranges | ((prevState: Ranges) => Ranges)) => {
+    setRange(newRange);
+  };
 
   return (
     <div>
-      <canvas ref={chartRef} width={400} height={400}></canvas>
+      <h2>{symbol} Stock Graph</h2>
+      <div>
+        {/* Add controls to change the range */}
+        <button onClick={() => handleRangeChange(Ranges.DAY)}>1 Day</button>
+        <button onClick={() => handleRangeChange(Ranges.WEEK)}>1 Week</button>
+        <button onClick={() => handleRangeChange(Ranges.MONTH)}>1 Month</button>
+        <button onClick={() => handleRangeChange(Ranges.QUARTER_YEAR)}>3 Month</button>
+        <button onClick={() => handleRangeChange(Ranges.HALF_YEAR)}>6 Month</button>
+        <button onClick={() => handleRangeChange(Ranges.YEAR)}>1 Year</button>
+      </div>
+      <BasicLineChart
+        data={[1, 2, 3]} // choose how to take the array of points from stockData state
+        labels={labels}
+        datasetLabel={`${symbol} Data`}
+        canvasBackgroundColor='#ffffff'
+      />
     </div>
   );
-}
+};
 
-export default BasicGraph;
+export { StockGraph };
