@@ -1,1 +1,0 @@
-export { BasicLineChartProps } from './BasicLineChartProps';

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import Chart from 'chart.js/auto';
-import { BasicLineChartProps } from '../interfaces';
+import { BasicLineChartProps } from '../types';
 
 const BasicLineChart = (props: BasicLineChartProps) => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
@@ -16,6 +16,12 @@ const BasicLineChart = (props: BasicLineChartProps) => {
         }
 
         chartInstanceRef.current = new Chart(ctx, {
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            color: 'white',
+            backgroundColor: 'black',
+          },
           type: 'line', // Change this to 'line' for a line chart
           data: {
             labels: props.labels,
@@ -24,9 +30,9 @@ const BasicLineChart = (props: BasicLineChartProps) => {
                 label: props.datasetLabel,
                 data: props.data,
                 fill: false, // Set to true if you want to fill the area under the line
-                borderColor: 'rgba(75, 192, 192, 1)', // Line color
+                borderColor: 'rgb(75, 192, 192)', // Line color
                 borderWidth: 1,
-                backgroundColor: 'rgba(0, 256, 0, 0.2)', // Set data point background color
+                backgroundColor: 'rgb(75, 192, 192)', // Set data point background color
               },
             ],
           },
@@ -42,8 +48,8 @@ const BasicLineChart = (props: BasicLineChartProps) => {
   }, [props.canvasBackgroundColor]);
 
   return (
-    <div>
-      <canvas ref={chartRef} width={400} height={400}></canvas>
+    <div style={{ height: '40vh' }}>
+      <canvas ref={chartRef}></canvas>
     </div>
   );
 };

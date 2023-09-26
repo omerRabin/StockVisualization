@@ -1,67 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import '../styles/search.css';
-import axios from 'axios';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { stockDetails } from './../types';
+import { useQuery } from 'react-query';
+import axios from 'axios';
+import '../styles/search.css';
 
 const SERVER_API = 'http://localhost:4567/api';
 
+const getStockDetails = async () => {
+  const response = await axios.get(`${SERVER_API}/data/stockDetails/stockData`);
+  return response.data as stockDetails[];
+};
+
 const Search = () => {
   const [userInput, setUserInput] = useState<string>('');
-  const [fetchedStockDetails, setFetchedStockDetails] = useState<stockDetails[]>([]);
-  const [filteredOptions, setFilteredOptions] = useState<stockDetails[]>([]);
-
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const getStockDetails = async () => {
-      try {
-        const response = await axios.get(`${SERVER_API}/data/stockDetails/stockData`);
-        return response.data as stockDetails[];
-      } catch (error) {
-        // Handle errors here
-        console.error('Error fetching stock details:', error);
-        return [];
-      }
-    };
+  const {
+    data: fetchedStockDetails = [],
+    isLoading,
+    refetch,
+  } = useQuery('stockDetails', getStockDetails, { enabled: false });
 
-    const fetchData = async () => {
-      const stockDetailsData = await getStockDetails();
-      setFetchedStockDetails(stockDetailsData);
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
+  const filteredOptions = useMemo(() => {
     if (userInput.trim() === '') {
-      // If the input is empty or contains only whitespace, clear options
-      setFilteredOptions([]);
-      return;
+      return [];
     }
 
-    // Filter the fetched stock details based on user input
-    const filteredStockDetails = fetchedStockDetails.filter((stock) =>
-      stock.symbol.toLowerCase().startsWith(userInput.toLowerCase())
-    );
+    refetch();
 
-    // Display up to 4 filtered options
-    const limitedOptions = filteredStockDetails.slice(0, 4);
-
-    setFilteredOptions(limitedOptions);
+    return fetchedStockDetails
+      .filter((stock) => stock.symbol.toLowerCase().startsWith(userInput.toLowerCase()))
+      .slice(0, 4);
   }, [userInput, fetchedStockDetails]);
 
-  // Handle user input change
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserInput(e.target.value);
-  };
-
-  // Handle option selection
   const handleOptionClick = (option: stockDetails) => {
-    setUserInput(option.symbol);
-    setFilteredOptions([]);
-
-    // Change the route to the stock symbol page
+    setUserInput('');
     navigate(`/markets/${option.symbol}`);
   };
 
@@ -72,7 +46,7 @@ const Search = () => {
         placeholder='Search...'
         className='search-input'
         value={userInput}
-        onChange={handleInputChange}
+        onChange={(e) => setUserInput(e.target.value)}
       />
       <i className='fas fa-search search-icon'></i>
       {filteredOptions.length > 0 && (
