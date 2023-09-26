@@ -40,26 +40,32 @@ const Search = () => {
   };
 
   return (
-    <div className='search'>
-      <input
-        type='text'
-        placeholder='Search...'
-        className='search-input'
-        value={userInput}
-        onChange={(e) => setUserInput(e.target.value)}
-      />
-      <i className='fas fa-search search-icon'></i>
-      {filteredOptions.length > 0 && (
-        <div className='options-container'>
-          {filteredOptions.map((option, index) => (
-            <div key={index} onClick={() => handleOptionClick(option)} className='option-item'>
-              <div className='symbol'> {option.symbol} </div>
-              <div className='company-name'> {option.companyName} </div>
+    <>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className='search'>
+          <input
+            type='text'
+            placeholder='Search...'
+            className='search-input'
+            value={userInput}
+            onChange={(e) => setUserInput(e.target.value)}
+          />
+          <i className='fas fa-search search-icon'></i>
+          {filteredOptions.length > 0 && (
+            <div className='options-container'>
+              {filteredOptions.map((option, index) => (
+                <div key={index} onClick={() => handleOptionClick(option)} className='option-item'>
+                  <div className='symbol'> {option.symbol} </div>
+                  <div className='company-name'> {option.companyName} </div>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

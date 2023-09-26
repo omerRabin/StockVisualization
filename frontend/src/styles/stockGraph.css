@@ -1,0 +1,24 @@
+.range-selection {
+  flex-grow: 1;
+}
+
+.range-selection-containter {
+  display: flex;
+}
+.stock-graph-title {
+  color: white;
+}
+
+.stock-graph-container {
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.temp-column {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}

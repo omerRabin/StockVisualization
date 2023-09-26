@@ -4,6 +4,7 @@ import { Ranges } from '../enums';
 import { BasicLineChart } from './';
 import { historicalStockData } from '../types';
 import { useQuery } from 'react-query';
+import '../styles/stockGraph.css';
 import axios from 'axios';
 
 const SERVER_API = 'http://localhost:4567/api';
@@ -14,7 +15,7 @@ const getStockData = async (symbol: string, range: Ranges) => {
 };
 
 const StockGraph = () => {
-  const { symbol = '' } = useParams(); // Provide a default value for symbol
+  const { symbol = '' } = useParams();
   const [range, setRange] = useState(Ranges.WEEK);
 
   const { data: stockData = [], isLoading } = useQuery(
@@ -23,27 +24,19 @@ const StockGraph = () => {
     { enabled: false }
   );
 
-  const labels = ['Label 1', 'Label 2', 'Label 3', 'Label 4', 'Label 5'];
+  const labels = ['Label 1', 'Label 2', 'Label 3', 'Label 4', 'Label5'];
 
   const handleRangeChange = (newRange: Ranges) => {
     setRange(newRange);
   };
 
   return (
-    <>
+    <div className='temp-column'>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <div>
-          <h2 style={{ color: 'white' }}>{symbol} Stock Graph</h2>
-          <div>
-            <button onClick={() => handleRangeChange(Ranges.DAY)}>1 Day</button>
-            <button onClick={() => handleRangeChange(Ranges.WEEK)}>1 Week</button>
-            <button onClick={() => handleRangeChange(Ranges.MONTH)}>1 Month</button>
-            <button onClick={() => handleRangeChange(Ranges.QUARTER_YEAR)}>3 Month</button>
-            <button onClick={() => handleRangeChange(Ranges.HALF_YEAR)}>6 Month</button>
-            <button onClick={() => handleRangeChange(Ranges.YEAR)}>1 Year</button>
-          </div>
+        <div className='stock-graph-container'>
+          <h2 className='stock-graph-title'>{symbol} Stock Graph</h2>
           {stockData && (
             <BasicLineChart
               data={[1, 2, 3]} // Replace with your stockData
@@ -52,9 +45,29 @@ const StockGraph = () => {
               canvasBackgroundColor='black'
             />
           )}
+          <div className='range-selection-containter'>
+            <button className='range-selection' onClick={() => handleRangeChange(Ranges.DAY)}>
+              1 Day
+            </button>
+            <button className='range-selection' onClick={() => handleRangeChange(Ranges.WEEK)}>
+              1 Week
+            </button>
+            <button className='range-selection' onClick={() => handleRangeChange(Ranges.MONTH)}>
+              1 Month
+            </button>
+            <button className='range-selection' onClick={() => handleRangeChange(Ranges.QUARTER_YEAR)}>
+              3 Month
+            </button>
+            <button className='range-selection' onClick={() => handleRangeChange(Ranges.HALF_YEAR)}>
+              6 Month
+            </button>
+            <button className='range-selection' onClick={() => handleRangeChange(Ranges.YEAR)}>
+              1 Year
+            </button>
+          </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
