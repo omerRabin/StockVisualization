@@ -3,8 +3,7 @@
   align-items: center;
   padding: 4px;
   justify-content: space-between;
-  height: 5vh;
-  width: 25vw;
+  width: 25vw; /* Set a fixed width for the container */
   position: relative;
 }
 
@@ -15,27 +14,28 @@
   font-size: large;
   padding: 8px;
   direction: ltr;
+  width: 100%; /* Set the input width to 100% */
+}
+
+.options-container {
+  white-space: nowrap;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+  width: 100%; /* Set the options container width to 100% */
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  overflow: hidden;
+  max-height: 33vh;
 }
 
 .search-icon {
   color: #666;
   margin: 0 8px;
-}
-
-.options-container {
-  white-space: nowrap;
-  position: absolute; /* Position the suggestions container */
-  top: 100%; /* Position it below the search box */
-  left: 0; /* Adjust left position if needed */
-  z-index: 1; /* Ensure it's displayed above other content */
-  width: 100%; /* Set the width to match the search input */
-  background-color: white; /* Set the background color */
-  border: 1px solid #ccc; /* Add a border for a separator */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a box shadow for a raised effect */
-  max-height: 200px; /* Set a max height to limit the suggestions */
-  overflow-y: auto; /* Add scrollbars when suggestions exceed max height */
-  overflow: hidden; /* Hide the scrollbar */
-  max-height: 33vh;
 }
 
 .option-item {

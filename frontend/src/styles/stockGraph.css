@@ -1,10 +1,27 @@
 .range-selection {
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+  border: 1px solid #000000;
+  padding: 8px 16px;
   flex-grow: 1;
+  margin: 9px;
 }
 
-.range-selection-containter {
+.range-selection:hover {
+  background-color: #aaaaaa;
+}
+
+.range-selection.selected {
+  background-color: #dbc8c8;
+  color: black;
+  font-weight: bold;
+}
+
+.range-selection-container {
   display: flex;
 }
+
 .stock-graph-title {
   color: white;
 }
