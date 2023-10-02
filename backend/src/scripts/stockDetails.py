@@ -38,14 +38,6 @@ def get_symbols_as_list():
     os.remove(temp_data_file)
     return symbols
 
-def save_nasdaq_symbols_to_js_file(symbols):
-    with open('symbols.ts', 'w') as file:
-        file.write('export const symbols = [')
-        for symbol in symbols:
-            file.write(f"'{symbol}'" + ',\n')
-        file.write(']')
-
-
 mongo_url = "mongodb://localhost:27017" 
 mongo_db_name = "local" 
 collection_name = "stockDetails"
@@ -88,7 +80,6 @@ def insert_stock_details(stock_details):
 if __name__ == "__main__":
     get_tickers()
     symbols = get_symbols_as_list()
-    save_nasdaq_symbols_to_js_file(symbols)
     for symbol in symbols:
         stock_details = get_stock_details(symbol)
         insert_stock_details(stock_details)

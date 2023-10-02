@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Ranges } from '../enums';
-import { BasicLineChart } from './';
+import { BasicLineChart } from '.';
 import '../styles/stockGraph.css';
 import axios from 'axios';
 import { useQuery, useQueryClient } from 'react-query';
@@ -25,9 +25,6 @@ const fetchStockData = async (symbol: string, selectedRange: Ranges) => {
 const StockGraph = () => {
   const { symbol = '' } = useParams();
   const [selectedRange, setSelectedRange] = useState<Ranges>(Ranges.WEEK); // Specify the type of selectedRange
-
-  const labels = ['Label 1', 'Label 2', 'Label 3', 'Label 4', 'Label 5'];
-
   const queryClient = useQueryClient(); // Get the query client
 
   const {
@@ -47,7 +44,7 @@ const StockGraph = () => {
   return (
     <div className='temp-column'>
       {isLoading ? (
-        <p>Loading...</p>
+        <p className='loading'>Loading...</p>
       ) : isError ? (
         <p>Error fetching stock data</p>
       ) : (
@@ -56,7 +53,7 @@ const StockGraph = () => {
           {stockData && (
             <BasicLineChart
               data={stockData.candlesClosedPricesList}
-              labels={labels}
+              labels={stockData.candlesTimestampList}
               datasetLabel={`${symbol} Data`}
               canvasBackgroundColor='black'
             />

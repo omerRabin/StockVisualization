@@ -11,7 +11,6 @@ const BasicLineChart = (props: BasicLineChartProps) => {
       const ctx = chartRef.current.getContext('2d');
       if (ctx) {
         if (chartInstanceRef.current) {
-          // If a Chart instance already exists, destroy it before creating a new one
           chartInstanceRef.current.destroy();
         }
 
@@ -21,18 +20,28 @@ const BasicLineChart = (props: BasicLineChartProps) => {
             maintainAspectRatio: false,
             color: 'white',
             backgroundColor: 'black',
+            scales: {
+              x: {
+                display: false,
+              },
+              y: {
+                display: true,
+              },
+            },
           },
-          type: 'line', // Change this to 'line' for a line chart
+          type: 'line',
           data: {
             labels: props.labels,
             datasets: [
               {
                 label: props.datasetLabel,
                 data: props.data,
-                fill: false, // Set to true if you want to fill the area under the line
-                borderColor: 'rgb(75, 192, 192)', // Line color
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
                 borderWidth: 1,
-                backgroundColor: 'rgb(75, 192, 192)', // Set data point background color
+                backgroundColor: 'rgb(75, 192, 192)',
+                pointRadius: 0,
+                pointHoverRadius: 0,
               },
             ],
           },
