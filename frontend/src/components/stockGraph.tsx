@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Ranges } from '../enums';
 import { BasicLineChart } from '.';
@@ -24,8 +24,8 @@ const fetchStockData = async (symbol: string, selectedRange: Ranges) => {
 
 const StockGraph = () => {
   const { symbol = '' } = useParams();
-  const [selectedRange, setSelectedRange] = useState<Ranges>(Ranges.WEEK); // Specify the type of selectedRange
-  const queryClient = useQueryClient(); // Get the query client
+  const queryClient = useQueryClient();
+  const [selectedRange, setSelectedRange] = useState<Ranges>(Ranges.WEEK);
 
   const {
     data: stockData,
@@ -36,10 +36,13 @@ const StockGraph = () => {
   });
 
   const handleRangeChange = (newRange: Ranges) => {
-    // Specify the type of newRange
     setSelectedRange(newRange);
     queryClient.invalidateQueries(['stockData', symbol, newRange]);
   };
+
+  useEffect(() => {
+    setSelectedRange(Ranges.WEEK);
+  }, [symbol]);
 
   return (
     <div className='temp-column'>

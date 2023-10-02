@@ -11,7 +11,6 @@ const getHistoricalStockDataByUserParameters = async (userParameters: userParame
       endTime: getTimeRangeFromRange[userParameters.range].endTime,
       range: userParameters.range,
     });
-
     return response;
   } catch (error) {
     console.error('Error in get Historical Stock Data By User Parameters :', error);
