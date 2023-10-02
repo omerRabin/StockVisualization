@@ -30,10 +30,11 @@ def get_symbols_as_list():
         next(f)  # ignore header
         for line in f:
             line_components = line.split("|")
-            # ignore blank lines and final line (file creation time)
             if len(line_components[0]) != 1:
                 continue
-            symbols.append(line_components[1].replace('$', '-'))
+            if(line_components[1].find('$') != -1):
+                line_components[1] = line_components[1][:-2]
+            symbols.append(line_components[1])
     
     os.remove(temp_data_file)
     return symbols
