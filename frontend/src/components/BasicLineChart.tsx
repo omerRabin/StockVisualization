@@ -28,7 +28,31 @@ const BasicLineChart = (props: BasicLineChartProps) => {
                 display: true,
               },
             },
+            interaction: {
+              intersect: false,
+              mode: 'index',
+            },
           },
+          plugins: [
+            {
+              id: 'canvasPlugin',
+              afterDraw: (chart) => {
+                if (chart.tooltip?.getActiveElements().length) {
+                  let x = chart.tooltip.getActiveElements()[0].element.x;
+                  let yAxis = chart.scales.y;
+                  let ctx = chart.ctx;
+                  ctx.save();
+                  ctx.beginPath();
+                  ctx.moveTo(x, yAxis.top);
+                  ctx.lineTo(x, yAxis.bottom);
+                  ctx.lineWidth = 1;
+                  ctx.strokeStyle = '#ff0000';
+                  ctx.stroke();
+                  ctx.restore();
+                }
+              },
+            },
+          ],
           type: 'line',
           data: {
             labels: props.labels,

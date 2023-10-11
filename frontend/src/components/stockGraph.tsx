@@ -55,7 +55,7 @@ const StockGraph = () => {
           <h2 className='stock-graph-title'>{symbol} Stock Graph</h2>
           {stockData && (
             <BasicLineChart
-              data={stockData.candlesClosedPricesList}
+              data={stockData.candlesOpenPricesList}
               labels={stockData.candlesTimestampList}
               datasetLabel={`${symbol} Data`}
               canvasBackgroundColor='black'
