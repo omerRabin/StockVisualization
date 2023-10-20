@@ -2,9 +2,11 @@ import React, { useRef, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import { BasicLineChartProps } from '../types';
 import { ActiveElement } from 'chart.js/dist/plugins/plugin.tooltip';
+import { isPositiveTrend } from 'src/utils';
 
 const CHART_BACKGROUND_COLOR = 'black';
-const LINE_COLOR = 'rgb(75, 192, 192)';
+const POSITIVE_COLOR = 'rgb(0, 128, 0)';
+const NEGATIVE_COLOR = 'rgb(255, 0, 0)';
 const GRID_COLOR = '#ffffff';
 
 const getDatesFromLabels = (labels: string[]) => {
@@ -75,11 +77,13 @@ const BasicLineChart = ({ labels, data, datasetLabel, canvasBackgroundColor }: B
                 label: datasetLabel,
                 data,
                 fill: false,
-                borderColor: LINE_COLOR,
+                borderColor: () => {
+                  return isPositiveTrend(data[0], data[data.length - 1]) ? POSITIVE_COLOR : NEGATIVE_COLOR;
+                },
                 borderWidth: 1,
-                backgroundColor: LINE_COLOR,
+                backgroundColor: 'white',
                 pointRadius: 0,
-                pointHoverRadius: 3,
+                pointHoverRadius: 4,
               },
             ],
           },

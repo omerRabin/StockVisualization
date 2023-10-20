@@ -1,0 +1,1 @@
+export { isPositiveTrend } from './graphUtils';
