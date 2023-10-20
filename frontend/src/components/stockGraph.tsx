@@ -57,7 +57,7 @@ const StockGraph = () => {
             <BasicLineChart
               data={stockData.candlesOpenPricesList}
               labels={stockData.candlesTimestampList}
-              datasetLabel={`${symbol} Data`}
+              datasetLabel={`${symbol}`}
               canvasBackgroundColor='black'
             />
           )}
