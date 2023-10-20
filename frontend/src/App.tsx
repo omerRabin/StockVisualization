@@ -7,7 +7,6 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import ReactDOM from 'react-dom';
 
-// Create a new instance of QueryClient
 const queryClient = new QueryClient();
 
 function App() {
@@ -30,7 +29,6 @@ function App() {
   );
 }
 
-// If you want to use the React Query Devtools in development mode
 if (process.env.NODE_ENV === 'development') {
   ReactDOM.render(<ReactQueryDevtools />, document.getElementById('root'));
 }

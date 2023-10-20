@@ -4,9 +4,10 @@ import { Ranges } from '../enums';
 import { BasicLineChart } from '.';
 import '../styles/stockGraph.css';
 import axios from 'axios';
+import socketIOClient from 'socket.io-client';
 import { useQuery, useQueryClient } from 'react-query';
 
-const SERVER_API = 'http://localhost:4567/api';
+const SERVER_URL = 'http://localhost:4567';
 
 const rangeOptions = [
   { value: Ranges.DAY, label: '1 Day' },
@@ -18,7 +19,7 @@ const rangeOptions = [
 ];
 
 const fetchStockData = async (symbol: string, selectedRange: Ranges) => {
-  const response = await axios.get(`${SERVER_API}/data/graph?symbol=${symbol}&range=${selectedRange}`);
+  const response = await axios.get(`${SERVER_URL}/api/data/graph?symbol=${symbol}&range=${selectedRange}`);
   return response.data;
 };
 
@@ -26,6 +27,18 @@ const StockGraph = () => {
   const { symbol = '' } = useParams();
   const queryClient = useQueryClient();
   const [selectedRange, setSelectedRange] = useState<Ranges>(Ranges.WEEK);
+  const [currentPrice, setCurrentPrice] = useState(Number || null);
+  const socket = socketIOClient(SERVER_URL, { query: { symbol } });
+
+  useEffect(() => {
+    const handleRealTimeStockData = (newPrice: number) => {
+      setCurrentPrice(newPrice);
+    };
+    socket.on('realTimeStockData', handleRealTimeStockData);
+    return () => {
+      socket.off('realTimeStockData', handleRealTimeStockData);
+    };
+  }, [symbol]);
 
   const {
     data: stockData,
@@ -53,6 +66,9 @@ const StockGraph = () => {
       ) : (
         <div className='stock-graph-container'>
           <h2 className='stock-graph-title'>{symbol} Stock Graph</h2>
+          <div className='stock-info'>
+            <div className='current-price-label'>{currentPrice}</div>
+          </div>
           {stockData && (
             <BasicLineChart
               data={stockData.candlesOpenPricesList}
@@ -77,5 +93,4 @@ const StockGraph = () => {
     </div>
   );
 };
-
 export { StockGraph };

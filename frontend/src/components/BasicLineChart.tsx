@@ -77,9 +77,7 @@ const BasicLineChart = ({ labels, data, datasetLabel, canvasBackgroundColor }: B
                 label: datasetLabel,
                 data,
                 fill: false,
-                borderColor: () => {
-                  return isPositiveTrend(data[0], data[data.length - 1]) ? POSITIVE_COLOR : NEGATIVE_COLOR;
-                },
+                borderColor: () => (isPositiveTrend(data[0], data[data.length - 1]) ? POSITIVE_COLOR : NEGATIVE_COLOR),
                 borderWidth: 1,
                 backgroundColor: 'white',
                 pointRadius: 0,
