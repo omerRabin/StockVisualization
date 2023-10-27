@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import { BasicLineChartProps } from '../types';
-import { ActiveElement } from 'chart.js/dist/plugins/plugin.tooltip';
 import { isPositiveTrend } from 'src/utils';
 
 const CHART_BACKGROUND_COLOR = 'black';

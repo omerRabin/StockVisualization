@@ -4,7 +4,7 @@ import { Ranges } from '../enums';
 import { BasicLineChart } from '.';
 import '../styles/stockGraph.css';
 import axios from 'axios';
-import socketIOClient from 'socket.io-client';
+import { io } from 'socket.io-client';
 import { useQuery, useQueryClient } from 'react-query';
 
 const SERVER_URL = 'http://localhost:4567';
@@ -28,7 +28,8 @@ const StockGraph = () => {
   const queryClient = useQueryClient();
   const [selectedRange, setSelectedRange] = useState<Ranges>(Ranges.WEEK);
   const [currentPrice, setCurrentPrice] = useState(Number || null);
-  const socket = socketIOClient(SERVER_URL, { query: { symbol } });
+
+  const socket = io(SERVER_URL, { path: '/socket.io', query: { symbol } });
 
   useEffect(() => {
     const handleRealTimeStockData = (newPrice: number) => {
