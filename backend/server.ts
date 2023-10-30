@@ -20,8 +20,8 @@ app.use(mainRouter);
 io.on('connection', (socket) => {
   console.log('A user connected');
 
-  socket.on('realTimeStockData', (symbol) => {
-    fetchRealTimeStockData(io, symbol);
+  socket.on('realTimeStockData', async (symbol) => {
+    await fetchRealTimeStockData(io, symbol);
   });
 
   socket.on('disconnect', () => {

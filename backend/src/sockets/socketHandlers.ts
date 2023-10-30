@@ -7,7 +7,7 @@ const FINNHUB_QUOTE_ROUTE = 'https://finnhub.io/api/v1/stock/quote';
 
 const fetchRealTimeStockData = async (io: Server, symbol: string): Promise<void> => {
   const response = await axios.get<realTimeStockData>(FINNHUB_QUOTE_ROUTE, {
-    params: { symbol },
+    params: { symbol, token: process.env.API_KEY },
   });
 
   try {

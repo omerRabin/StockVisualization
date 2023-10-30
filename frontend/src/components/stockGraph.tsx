@@ -27,7 +27,7 @@ const StockGraph = () => {
   const { symbol = '' } = useParams();
   const queryClient = useQueryClient();
   const [selectedRange, setSelectedRange] = useState<Ranges>(Ranges.WEEK);
-  const [currentPrice, setCurrentPrice] = useState(Number || null);
+  const [currentPrice, setCurrentPrice] = useState<number | null>(null);
 
   const socket = io(SERVER_URL, { path: '/socket.io', query: { symbol } });
 
@@ -36,6 +36,7 @@ const StockGraph = () => {
       setCurrentPrice(newPrice);
     };
     socket.on('realTimeStockData', handleRealTimeStockData);
+    socket.emit('realTimeStockData', { symbol });
     return () => {
       socket.off('realTimeStockData', handleRealTimeStockData);
     };
